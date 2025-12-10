@@ -7,13 +7,16 @@ interface AnnotationEditorProps {
   elements: AnnotatableElement[];
   onUpdateElement: (id: string, updates: Partial<AnnotatableElement>) => void;
   onExport: () => void;
+  onReset?: () => void; // Optional prop for future use or if passed by parent
 }
 
 const PROPERTY_SUGGESTIONS: Record<string, { label: string; uri: string }[]> = {
   DATASET: [
     { label: 'sameAs', uri: 'https://schema.org/sameAs' },
     { label: 'isBasedOn', uri: 'https://schema.org/isBasedOn' },
-    { label: 'wasDerivedFrom', uri: 'http://www.w3.org/ns/prov#wasDerivedFrom' }
+    { label: 'wasDerivedFrom', uri: 'http://www.w3.org/ns/prov#wasDerivedFrom' },
+    { label: 'contains process', uri: 'http://purl.obolibrary.org/obo/BFO_0000067' },
+    { label: 'is about', uri: 'http://purl.obolibrary.org/obo/IAO_0000136' }
   ],
   DATATABLE: [
     { label: 'sameAs', uri: 'https://schema.org/sameAs' },
@@ -36,7 +39,9 @@ const PROPERTY_SUGGESTIONS: Record<string, { label: string; uri: string }[]> = {
     { label: 'wasDerivedFrom', uri: 'http://www.w3.org/ns/prov#wasDerivedFrom' }
   ],
   ATTRIBUTE: [
-    { label: 'contains measurements of type', uri: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType' }
+    { label: 'contains measurements of type', uri: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType' },
+    { label: 'usesMethod', uri: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#usesMethod' },
+    { label: 'uses protocol', uri: 'http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#usesProtocol' }
   ],
   COVERAGE: [
     { label: 'broad-scale environmental context', uri: 'https://genomicsstandardsconsortium.github.io/mixs/0000012/' },
