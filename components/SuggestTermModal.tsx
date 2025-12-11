@@ -92,29 +92,23 @@ export const SuggestTermModal: React.FC<SuggestTermModalProps> = ({ isOpen, onCl
     setSubmitError(null);
 
     try {
-      // NOTE: In the production build, this call sends data to the Python FastAPI backend.
-      // The backend retrieves the private destination email from server-side environment variables
-      // (e.g. PROPOSAL_RECIPIENT_EMAIL) to ensure it is never exposed to the client.
-      
-      /* 
-      const response = await fetch('/api/proposals', {
+      // Connect to the Python FastAPI backend
+      const response = await fetch('http://localhost:8000/api/proposals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
       
-      if (!response.ok) throw new Error('Failed to submit proposal');
-      */
-
-      // Simulation of a successful API call for demonstration
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log("Secure Payload sent to backend:", formData);
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
       
+      console.log("Proposal successfully submitted to backend.");
       setIsSubmitting(false);
       setIsSuccess(true);
     } catch (error) {
       console.error(error);
-      setSubmitError("There was an issue submitting your proposal. Please try again later.");
+      setSubmitError("There was an issue submitting your proposal. Please ensure the backend server is running.");
       setIsSubmitting(false);
     }
   };

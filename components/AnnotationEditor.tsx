@@ -213,7 +213,7 @@ export const AnnotationEditor: React.FC<AnnotationEditorProps> = ({ elements, on
 
       {/* List Area */}
       <div className="space-y-6 pb-12">
-        {Object.entries(groups).map(([groupName, groupElements]) => {
+        {Object.entries(groups).map(([groupName, groupElements]: [string, AnnotatableElement[]]) => {
           // Retrieve the description if we are grouping by Context (Entity)
           const contextDescription = groupBy === 'CONTEXT' ? groupElements[0]?.contextDescription : undefined;
           const isExpanded = !!expandedGroups[groupName];
