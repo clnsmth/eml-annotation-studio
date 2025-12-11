@@ -13,6 +13,8 @@ export interface OntologyTerm {
   confidence?: number;
   propertyLabel?: string;
   propertyUri?: string;
+  attributeName?: string;
+  objectName?: string;
 }
 
 export interface AnnotatableElement {
