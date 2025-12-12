@@ -29,7 +29,8 @@ export class GeminiService {
     }
 
     const payload = { elements: itemsToAnnotate };
-    const url = 'http://0.0.0.0:8000';
+    // UPDATED: Use localhost instead of 0.0.0.0 to avoid net::ERR_ADDRESS_INVALID in browsers
+    const url = 'http://localhost:8000';
 
     console.log(`[GeminiService] Preparing to POST ${itemsToAnnotate.length} items to ${url}`);
 
@@ -64,7 +65,6 @@ export class GeminiService {
 
     } catch (error) {
       console.error(`[GeminiService] Failed to fetch recommendations from ${url}. Is the server running?`, error);
-      // NOTE: Browsers often block 0.0.0.0. If you see 'TypeError: Failed to fetch', try 'http://localhost:8000'
       return new Map();
     }
   }
