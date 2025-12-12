@@ -29,8 +29,8 @@ export class GeminiService {
     }
 
     const payload = { elements: itemsToAnnotate };
-    // UPDATED: Use localhost instead of 0.0.0.0 to avoid net::ERR_ADDRESS_INVALID in browsers
-    const url = 'http://localhost:8000';
+    // UPDATED: Point to /api/recommend endpoint instead of root to avoid 405 Method Not Allowed
+    const url = 'http://localhost:8000/api/recommend';
 
     console.log(`[GeminiService] Preparing to POST ${itemsToAnnotate.length} items to ${url}`);
 
