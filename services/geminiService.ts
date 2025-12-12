@@ -23,25 +23,32 @@ export class GeminiService {
         type: e.type
       }));
 
-    if (itemsToAnnotate.length === 0) return new Map();
+    if (itemsToAnnotate.length === 0) {
+      console.log('No eligible elements for annotation found (Dataset level filtered out).');
+      return new Map();
+    }
+
+    const payload = { elements: itemsToAnnotate };
+    const url = 'http://0.0.0.0:8000';
+
+    console.log(`[GeminiService] Preparing to POST ${itemsToAnnotate.length} items to ${url}`);
 
     try {
-      const response = await fetch('http://0.0.0.0:8000', {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          elements: itemsToAnnotate
-        })
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {
-        console.warn(`Backend returned status ${response.status}`);
+        console.warn(`[GeminiService] Backend returned status ${response.status}: ${response.statusText}`);
         return new Map();
       }
 
       const result = await response.json() as { id: string, recommendations: OntologyTerm[] }[];
+      console.log('[GeminiService] Response received:', result);
       
       const map = new Map<string, OntologyTerm[]>();
       
@@ -56,7 +63,8 @@ export class GeminiService {
       return map;
 
     } catch (error) {
-      console.error("Error fetching recommendations from backend:", error);
+      console.error(`[GeminiService] Failed to fetch recommendations from ${url}. Is the server running?`, error);
+      // NOTE: Browsers often block 0.0.0.0. If you see 'TypeError: Failed to fetch', try 'http://localhost:8000'
       return new Map();
     }
   }

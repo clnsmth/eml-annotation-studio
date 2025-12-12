@@ -40,6 +40,8 @@ export default function App() {
 
   // Handle File Upload and Initial Processing
   const handleFileLoaded = async (name: string, content: string, skipRecommendations: boolean) => {
+    console.log(`File loaded: ${name}. AI Recommendations enabled: ${!skipRecommendations}`);
+    
     setFileName(name);
     setXmlContent(content);
     setError(null);
@@ -57,9 +59,13 @@ export default function App() {
       let recommendationsMap: Map<string, OntologyTerm[]> = new Map();
 
       if (!skipRecommendations) {
+          console.log('Initiating recommendation request to backend...');
           setLoadingMsg('Consulting Knowledge Base (AI)...');
           // 2. Fetch Recommendations from Backend
           recommendationsMap = await geminiService.getRecommendations(parsedElements);
+          console.log(`Received recommendations for ${recommendationsMap.size} elements`);
+      } else {
+          console.log('Skipping AI recommendations per user selection.');
       }
       
       // 3. Merge Recommendations
@@ -77,7 +83,7 @@ export default function App() {
       setElements(enrichedElements);
 
     } catch (e: any) {
-      console.error(e);
+      console.error("Error in processing pipeline:", e);
       setError(e.message || "Error processing file.");
       setStep('UPLOAD');
     } finally {
@@ -87,6 +93,7 @@ export default function App() {
 
   const handleLoadExample = () => {
       // For example load, we default to enabling recommendations (false for skipping)
+      console.log("Loading example data...");
       handleFileLoaded('example_eml.xml', EXAMPLE_EML_XML, false);
   };
 
