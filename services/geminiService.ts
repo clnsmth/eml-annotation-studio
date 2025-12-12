@@ -30,7 +30,7 @@ export class GeminiService {
 
     const payload = { elements: itemsToAnnotate };
     // UPDATED: Point to /api/recommend endpoint instead of root to avoid 405 Method Not Allowed
-    const url = 'http://localhost:8000/api/recommend';
+    const url = 'http://localhost:8000/api/recommendations';
 
     console.log(`[GeminiService] Preparing to POST ${itemsToAnnotate.length} items to ${url}`);
 
