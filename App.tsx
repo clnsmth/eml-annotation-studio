@@ -64,8 +64,8 @@ export default function App() {
           if (name === 'example_eml.xml') {
               // Simulate network delay for realism
               await new Promise(r => setTimeout(r, 1000));
-              Object.entries(MOCK_RECOMMENDATIONS).forEach(([id, terms]) => {
-                  recommendationsMap.set(id, terms);
+              MOCK_RECOMMENDATIONS.forEach((item) => {
+                  recommendationsMap.set(item.id, item.recommendations);
               });
           } else {
               // Normal flow
