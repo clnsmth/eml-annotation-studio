@@ -6,7 +6,7 @@ import { emlParser } from './services/emlParser';
 import { geminiService } from './services/geminiService';
 import { AnnotatableElement, OntologyTerm, AnnotationStatus } from './types';
 import { Loader2, Download, CheckCircle, RotateCcw, AlertTriangle } from 'lucide-react';
-import { EXAMPLE_EML_XML, MOCK_RECOMMENDATIONS } from './constants/mockData';
+import { EXAMPLE_EML_XML } from './constants/mockData';
 
 export default function App() {
   const [step, setStep] = useState<'UPLOAD' | 'ANNOTATE' | 'EXPORT'>('UPLOAD');
@@ -58,19 +58,8 @@ export default function App() {
 
       if (!skipRecommendations) {
           setLoadingMsg('Consulting Knowledge Base (AI)...');
-          
-          // 2. Fetch Recommendations
-          // If we are loading the example file, use mock data instead of calling API
-          if (name === 'example_eml.xml') {
-              // Simulate network delay for realism
-              await new Promise(r => setTimeout(r, 1000));
-              MOCK_RECOMMENDATIONS.forEach((item) => {
-                  recommendationsMap.set(item.id, item.recommendations);
-              });
-          } else {
-              // Normal flow
-              recommendationsMap = await geminiService.getRecommendations(parsedElements);
-          }
+          // 2. Fetch Recommendations from Backend
+          recommendationsMap = await geminiService.getRecommendations(parsedElements);
       }
       
       // 3. Merge Recommendations
@@ -132,12 +121,7 @@ export default function App() {
                onLoadExample={handleLoadExample}
                error={error}
              />
-             {/* API Key Warning for Demo */}
-             {!process.env.API_KEY && (
-               <div className="mt-8 p-4 bg-amber-50 text-amber-700 rounded-lg text-sm max-w-md text-center border border-amber-200">
-                 <strong>Note:</strong> No API_KEY found in environment. The recommender system will return mock or empty results unless you use the "Load Example Data" button.
-               </div>
-             )}
+             {/* Note: Removed API key check as we now use backend */}
          </div>
       )}
 
