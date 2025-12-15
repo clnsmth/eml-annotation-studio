@@ -18,11 +18,14 @@ export class GeminiService {
       // Exclude DATASET level elements from AI recommendations per requirements
       if (e.type === 'DATASET') return; 
 
-      if (!groupedPayload[e.type]) {
-        groupedPayload[e.type] = [];
+      // Map internal type 'COVERAGE' to 'GEOGRAPHICCOVERAGE' for the backend
+      const key = e.type === 'COVERAGE' ? 'GEOGRAPHICCOVERAGE' : e.type;
+
+      if (!groupedPayload[key]) {
+        groupedPayload[key] = [];
       }
 
-      groupedPayload[e.type].push({
+      groupedPayload[key].push({
         id: e.id,
         name: e.name,
         description: e.description,
