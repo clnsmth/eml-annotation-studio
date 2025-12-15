@@ -3,7 +3,7 @@ import { UploadCloud, FileCode, PlayCircle, Sparkles, AlertCircle } from 'lucide
 
 interface FileUploadProps {
   onFileLoaded: (name: string, content: string, skipRecommendations: boolean) => void;
-  onLoadExample: () => void;
+  onLoadExample: (skipRecommendations: boolean) => void;
   error?: string | null;
 }
 
@@ -83,7 +83,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileLoaded, onLoadExam
           <button 
             onClick={(e) => {
               e.stopPropagation();
-              onLoadExample();
+              onLoadExample(skipRecommendations);
             }}
             className="inline-flex items-center justify-center px-6 py-2 border border-slate-200 text-sm font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors w-48"
           >

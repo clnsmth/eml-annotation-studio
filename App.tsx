@@ -91,10 +91,10 @@ export default function App() {
     }
   };
 
-  const handleLoadExample = () => {
-      // For example load, we default to enabling recommendations (false for skipping)
+  const handleLoadExample = (skipRecommendations: boolean) => {
+      // Load example data respecting the user's toggle choice
       console.log("Loading example data...");
-      handleFileLoaded('example_eml.xml', EXAMPLE_EML_XML, false);
+      handleFileLoaded('example_eml.xml', EXAMPLE_EML_XML, skipRecommendations);
   };
 
   const handleUpdateElement = (id: string, updates: Partial<AnnotatableElement>) => {
