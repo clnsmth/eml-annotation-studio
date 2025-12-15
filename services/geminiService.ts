@@ -10,29 +10,37 @@ export class GeminiService {
    * Generates recommendations for a batch of elements by calling the backend service.
    */
   async getRecommendations(elements: AnnotatableElement[]): Promise<Map<string, OntologyTerm[]>> {
-    // Prepare prompt payload
-    // Exclude DATASET level elements from AI recommendations per requirements
-    // DATATABLE elements are included
-    const itemsToAnnotate = elements
-      .filter(e => e.type !== 'DATASET') 
-      .map(e => ({
+    // Group elements by type for the backend coordinator
+    const groupedPayload: Record<string, any[]> = {};
+    let totalCount = 0;
+
+    elements.forEach(e => {
+      // Exclude DATASET level elements from AI recommendations per requirements
+      if (e.type === 'DATASET') return; 
+
+      if (!groupedPayload[e.type]) {
+        groupedPayload[e.type] = [];
+      }
+
+      groupedPayload[e.type].push({
         id: e.id,
         name: e.name,
         description: e.description,
-        context: e.context,
-        type: e.type
-      }));
+        context: e.context
+        // Type is implicit in the grouping key
+      });
+      totalCount++;
+    });
 
-    if (itemsToAnnotate.length === 0) {
+    if (totalCount === 0) {
       console.log('No eligible elements for annotation found (Dataset level filtered out).');
       return new Map();
     }
 
-    const payload = { elements: itemsToAnnotate };
-    // UPDATED: Point to /api/recommend endpoint instead of root to avoid 405 Method Not Allowed
+    // Payload is now the grouped object directly
     const url = 'http://localhost:8000/api/recommendations';
 
-    console.log(`[GeminiService] Preparing to POST ${itemsToAnnotate.length} items to ${url}`);
+    console.log(`[GeminiService] Preparing to POST ${totalCount} items (grouped by type) to ${url}`);
 
     try {
       const response = await fetch(url, {
@@ -40,7 +48,7 @@ export class GeminiService {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(groupedPayload)
       });
 
       if (!response.ok) {
