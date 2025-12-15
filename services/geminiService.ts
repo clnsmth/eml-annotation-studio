@@ -27,7 +27,8 @@ export class GeminiService {
         name: e.name,
         description: e.description,
         context: e.context,
-        objectName: e.objectName // Include the physical file name if available (e.g. for attributes)
+        objectName: e.objectName, // Include the physical file name if available (e.g. for attributes)
+        entityDescription: e.contextDescription // Include context description (e.g. Entity Description for attributes)
       });
       totalCount++;
     });

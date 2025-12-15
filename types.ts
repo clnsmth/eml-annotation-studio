@@ -54,5 +54,6 @@ export interface RecommenderRequest {
     description: string;
     context: string;
     objectName?: string;
+    entityDescription?: string;
   }[];
 }
