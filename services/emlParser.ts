@@ -170,6 +170,9 @@ export class EmlParser {
             const entityName = getText(entity, "entityName") || `${config.label} ${entityIndex + 1}`;
             const entityDescription = getText(entity, "entityDescription");
             const entityId = entity.getAttribute("id") || `${config.tag}-${entityIndex}`;
+            
+            // Extract objectName (usually inside <physical><objectName>)
+            const objectName = getText(entity, "physical objectName");
 
             // 1a. The Entity itself
             const entityAnnotations = this.parseChildAnnotations(entity);
@@ -178,6 +181,7 @@ export class EmlParser {
                 path: `dataset/${config.tag}[${entityIndex}]`,
                 context: entityName,
                 contextDescription: entityDescription,
+                objectName: objectName, // Include objectName if found
                 name: entityName,
                 description: entityDescription || config.label,
                 type: config.type,
@@ -201,6 +205,7 @@ export class EmlParser {
                     path: `dataset/${config.tag}[${entityIndex}]/attributeList/attribute[${attrIndex}]`,
                     context: entityName,
                     contextDescription: entityDescription,
+                    objectName: objectName, // Attributes belong to the entity's object
                     name: name,
                     description: definition,
                     type: 'ATTRIBUTE',
@@ -271,13 +276,8 @@ export class EmlParser {
             }
         } else if (['DATATABLE', 'OTHERENTITY', 'SPATIALRASTER', 'SPATIALVECTOR'].includes(model.type)) {
             // Requirement: Insert annotations before attributeList or after physical if no attributeList
-            // For Entities, order is generally: ... physical, coverage, methods, additionalInfo, annotation, attributeList, ...
-            // Safest insertion is before attributeList.
             refNode = node.querySelector("attributeList");
             if (!refNode) {
-                // If no attributeList, try appending (schema order usually puts annotation near end of EntityGroup)
-                // Or verify schema: EntityGroup = ..., physical, coverage, methods, additionalInfo, annotation, attributeList...
-                // So if attributeList is missing, we check for constraint, or spatialReference (for raster)
                 refNode = node.querySelector("constraint, spatialReference, geospatial, geometry");
             }
         } else if (model.type === 'ATTRIBUTE') {

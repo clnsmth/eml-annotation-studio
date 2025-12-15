@@ -26,8 +26,8 @@ export class GeminiService {
         id: e.id,
         name: e.name,
         description: e.description,
-        context: e.context
-        // Type is implicit in the grouping key
+        context: e.context,
+        objectName: e.objectName // Include the physical file name if available (e.g. for attributes)
       });
       totalCount++;
     });

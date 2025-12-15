@@ -22,6 +22,7 @@ export interface AnnotatableElement {
   path: string; // XML Path or logical path
   context: string; // Parent entity name (e.g., 'Tree Survey Table')
   contextDescription?: string; // Description of the parent entity
+  objectName?: string; // The physical file name (e.g., 'data.csv') associated with this element
   name: string; // Element name (e.g., 'dbh')
   description: string; // Element description (e.g., 'Diameter at breast height')
   type: 'ATTRIBUTE' | 'COVERAGE' | 'KEYWORD' | 'DATASET' | 'DATATABLE' | 'OTHERENTITY' | 'SPATIALRASTER' | 'SPATIALVECTOR' | 'OTHER';
@@ -52,5 +53,6 @@ export interface RecommenderRequest {
     name: string;
     description: string;
     context: string;
+    objectName?: string;
   }[];
 }
