@@ -1,5 +1,4 @@
 import React from 'react';
-import { Database, FileText, Download } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,8 +12,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, step }) => {
       <header className="flex-none bg-white border-b border-slate-200 px-6 py-4 shadow-sm z-10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="bg-indigo-600 p-2 rounded-lg">
-              <Database className="w-6 h-6 text-white" />
+            <div className="bg-white p-1 rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+              <img 
+                src="https://edirepository.org/static/images/EDI-logo.png" 
+                alt="EML Logo" 
+                className="w-8 h-8 block object-contain"
+              />
             </div>
             <div>
               <h1 className="text-xl font-bold text-slate-800 tracking-tight">Semantic EML Annotator</h1>
