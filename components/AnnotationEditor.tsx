@@ -313,6 +313,38 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
 
   const suggestions = PROPERTY_SUGGESTIONS[element.type] || [];
 
+  /**
+   * Logs selection behavior to the server
+   */
+  const logSelection = (selected: OntologyTerm, allRecommendations: OntologyTerm[]) => {
+    const ignored = allRecommendations.filter(r => r.uri !== selected.uri);
+    
+    const logData = {
+      event_id: crypto.randomUUID?.() || Math.random().toString(36).substring(2),
+      timestamp: new Date().toISOString(),
+      element_id: element.id,
+      element_name: element.name,
+      element_type: element.type,
+      selected: {
+        label: selected.label,
+        uri: selected.uri,
+        property_label: selected.propertyLabel,
+        property_uri: selected.propertyUri,
+        confidence: selected.confidence
+      },
+      not_selected: ignored.map(r => ({
+        label: r.label,
+        uri: r.uri,
+        property_label: r.propertyLabel,
+        property_uri: r.propertyUri,
+        confidence: r.confidence
+      }))
+    };
+
+    const blob = new Blob([JSON.stringify(logData)], { type: 'application/json' });
+    navigator.sendBeacon('http://localhost:8000/api/log-selection', blob);
+  };
+
   const addAnnotation = (term: OntologyTerm) => {
     // Avoid dupes
     if (element.currentAnnotations.some(a => a.uri === term.uri && a.propertyUri === term.propertyUri)) return;
@@ -345,6 +377,10 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
   };
 
   const acceptRecommendation = (rec: OntologyTerm) => {
+    // Log the behavior
+    logSelection(rec, element.recommendedAnnotations);
+    
+    // Add the annotation
     addAnnotation(rec);
   };
 
