@@ -1,12 +1,14 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+![Experimental](https://img.shields.io/badge/status-experimental-orange) ![WIP](https://img.shields.io/badge/status-WIP-yellow)
 
-# Run and deploy your AI Studio app
+# eml-annotation-studio
 
-This contains everything you need to run your app locally.
+EML Annotation Studio is the front-end application for the EML Annotation Engine. It provides a user-friendly interface for uploading, parsing, and annotating EML (Ecological Metadata Language) files. The tool is designed to streamline the process of reviewing and suggesting terms for metadata annotation, making it easier for users to work with ecological data standards.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1n7YQDyDo5IOP9E-fgFtLAIwwO1HRLuFc
+## Features
+- Upload and parse EML files
+- Interactive annotation editor
+- Suggest and review terms for metadata fields
+- Integration with the EML Annotation Engine for enhanced suggestions
 
 ## Run Locally
 
@@ -15,6 +17,14 @@ View your app in AI Studio: https://ai.studio/apps/drive/1n7YQDyDo5IOP9E-fgFtLAI
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Run the app:
    `npm run dev`
+
+## Project Structure
+- `components/` – React components for UI and annotation workflows
+- `services/` – Logic for EML parsing and Annotation Engine API integration
+- `constants/` – Mock data and static resources
+- `types.ts` – TypeScript type definitions
+
+## License
+See `LICENSE` file for details.
