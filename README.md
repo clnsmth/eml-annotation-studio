@@ -2,7 +2,7 @@
 
 # eml-annotation-studio
 
-EML Annotation Studio is the front-end application for the EML Annotation Engine. It provides a user-friendly interface for uploading, parsing, and annotating EML (Ecological Metadata Language) files. The tool is designed to streamline the process of reviewing and suggesting terms for metadata annotation, making it easier for users to work with ecological data standards.
+EML Annotation Studio is the front-end application for the [EML Annotation Engine](https://github.com/clnsmth/eml-annotation-engine). It provides a user-friendly interface for uploading, parsing, and annotating EML (Ecological Metadata Language) files. The tool is designed to streamline the process of reviewing and suggesting terms for metadata annotation, making it easier for users to work with ecological data standards.
 
 ## Features
 - Upload and parse EML files
