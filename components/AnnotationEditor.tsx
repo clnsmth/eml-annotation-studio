@@ -456,6 +456,7 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
         {/* Recommendations Area */}
         <div className="flex-1 min-w-0 border-l border-slate-100 pl-6">
            <div className="space-y-2">
+             {/* Hide "No AI suggestions" for DATASET level to reduce clutter, as it's expected */}
              {element.recommendedAnnotations.length === 0 && !isAddingCustom && element.type !== 'DATASET' && (
                <div className="flex items-center text-xs text-slate-400 py-1">
                  <span>No AI suggestions</span>
@@ -472,7 +473,7 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
                        <div className="overflow-hidden flex items-baseline gap-2">
                          <span className="text-[10px] uppercase font-bold text-indigo-400/70 tracking-tight">{rec.propertyLabel || 'contains'}</span>
                          <span className="text-xs font-semibold text-indigo-900 truncate">{rec.label}</span>
-                         {idx === 0 && <Wand2 className="w-3 h-3 text-indigo-400 ml-auto" />}
+                         <Wand2 className="w-3 h-3 text-indigo-400 ml-auto shrink-0" />
                        </div>
                        <button 
                          onClick={(e) => {
