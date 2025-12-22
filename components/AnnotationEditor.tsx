@@ -320,6 +320,7 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
     const ignored = allRecommendations.filter(r => r.uri !== selected.uri);
     
     const logData = {
+      request_id: selected.requestId, // Track which backend request this came from
       event_id: crypto.randomUUID?.() || Math.random().toString(36).substring(2),
       timestamp: new Date().toISOString(),
       element_id: element.id,
