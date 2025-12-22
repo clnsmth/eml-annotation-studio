@@ -456,8 +456,8 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
         {/* Recommendations Area */}
         <div className="flex-1 min-w-0 border-l border-slate-100 pl-6">
            <div className="space-y-2">
-             {/* Hide "No AI suggestions" for DATASET level to reduce clutter, as it's expected */}
-             {element.recommendedAnnotations.length === 0 && !isAddingCustom && element.type !== 'DATASET' && (
+             {/* Show "No AI suggestions" for all types including DATASET if no recs found */}
+             {element.recommendedAnnotations.length === 0 && !isAddingCustom && (
                <div className="flex items-center text-xs text-slate-400 py-1">
                  <span>No AI suggestions</span>
                </div>
