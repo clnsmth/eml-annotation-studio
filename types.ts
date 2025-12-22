@@ -15,7 +15,7 @@ export interface OntologyTerm {
   propertyUri?: string;
   attributeName?: string;
   objectName?: string;
-  requestId?: string; // Tracks which recommender request generated this term
+  request_id?: string; // Tracks which recommender request generated this term (backend key)
 }
 
 export interface AnnotatableElement {

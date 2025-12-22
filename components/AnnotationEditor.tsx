@@ -320,7 +320,7 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
     const ignored = allRecommendations.filter(r => r.uri !== selected.uri);
     
     const logData = {
-      request_id: selected.requestId, // Track which backend request this came from
+      request_id: selected.request_id, // Top-level key, retrieved from selected recommendation
       event_id: crypto.randomUUID?.() || Math.random().toString(36).substring(2),
       timestamp: new Date().toISOString(),
       element_id: element.id,
@@ -389,7 +389,6 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
     if (!customLabel.trim() || !customUri.trim()) return;
 
     // Use defaults if property fields are left blank but user saves (though button is disabled)
-    // Actually, good practice to ensure we have something, but based on disabled logic it's fine.
     const finalPropLabel = customPropLabel.trim() || 'contains';
     const finalPropUri = customPropUri.trim() || 'http://www.w3.org/ns/oa#hasBody';
 
@@ -457,7 +456,6 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
         {/* Recommendations Area */}
         <div className="flex-1 min-w-0 border-l border-slate-100 pl-6">
            <div className="space-y-2">
-             {/* Hide "No AI suggestions" for DATASET level to reduce clutter, as it's expected */}
              {element.recommendedAnnotations.length === 0 && !isAddingCustom && element.type !== 'DATASET' && (
                <div className="flex items-center text-xs text-slate-400 py-1">
                  <span>No AI suggestions</span>
@@ -492,7 +490,7 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
                  );
                })}
              
-             {/* Manual Add Form - Vertical Layout Matching Tooltip Structure */}
+             {/* Manual Add Form */}
              {isAddingCustom ? (
                 <div className="mt-2 bg-white border border-indigo-200 rounded-lg p-3 shadow-sm animate-in fade-in slide-in-from-top-1 w-full max-w-sm">
                    
@@ -611,7 +609,6 @@ const AnnotationRow: React.FC<AnnotationRowProps> = ({ element, onUpdate, onSugg
 
 // Tooltip Component
 const InfoTooltip: React.FC<{ term: OntologyTerm }> = ({ term }) => (
-  // REMOVED mb-2 which created a gap, ADDED/INCREASED pb-3 to create a bridge
   <div className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 w-80 pb-3 opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 ease-out pointer-events-none group-hover/tooltip:pointer-events-auto">
     <div className="bg-slate-800 text-white text-xs rounded-lg shadow-xl p-4 relative ring-1 ring-black/5 flex flex-col gap-4">
       
